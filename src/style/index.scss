@@ -1,0 +1,97 @@
+@import 'variables.scss';
+@import 'normalize.scss';
+@import url("https://fonts.googleapis.com/css?family=Cormorant+Garamond|Montserrat:100,800&display=swap");
+@import "typebase.scss";
+
+a {
+  text-decoration: none;
+  color: $brand-color;
+  font-weight: bold;
+
+  &:hover {
+    color: $brand-contrast;
+  }
+}
+
+pre {
+  overflow: auto;
+}
+
+code, code > pre, pre > code {
+  font-size: 0.7rem;
+  line-height: 1rem;
+  vertical-align: unset;
+  background: #f0f0f0;
+  border: 1px solid #cdcdcd;
+  padding: 0.25rem;
+  display: inline-block;
+}
+
+blockquote {
+  border-left: 10px solid $brand-contrast;
+  padding: 0rem 1rem;
+  quotes: "\201C""\201D";
+  font-family: $sans-serif;
+  line-height: 1.5em;
+
+  &:before {
+    color: $brand-contrast;
+    content: open-quote;
+    font-size: 4em;
+    line-height: 0.1em;
+    margin-right: 0.25em;
+    vertical-align: -0.4em;
+  }
+
+  p:first-child {
+    display: inline;
+
+    &:after {
+      content: "\A";
+      white-space: pre;
+    }
+  }
+
+  cite {
+    display: block;
+    text-align: right;
+    margin-top: 1rem;
+    color: $brand-color;
+  }
+}
+
+.page-title {
+  color: $brand-contrast;
+  @include center-column();
+  margin: 1em auto;
+}
+
+nav {
+  text-align: center;
+}
+
+.continue {
+  font-style: italic;
+}
+
+.icon {
+  fill: $brand-contrast;
+  width: 30px;
+  height: auto;
+
+  &:hover {
+    fill: $brand-color;
+  }
+}
+
+.entry-content.summary {
+  word-break: break-word;
+}
+
+.bullets {
+  text-align: center;
+  span {
+    font-size: 0.5rem;
+    vertical-align: middle;
+  }
+}

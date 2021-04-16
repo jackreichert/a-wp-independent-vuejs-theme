@@ -1,0 +1,36 @@
+/* Colors */
+$brand-color: #c62004;
+$brand-contrast: #06617b;
+$dark: #333333;
+$white: #ffffff;
+$black: #000000;
+
+/* Type */
+$serif: "Cormorant Garamond", serif;
+$sans-serif: "Montserrat", sans-serif;
+
+/* Layout */
+@mixin center-column() {
+  width: 80%;
+  max-width: 65ch;
+  margin: 0 auto 1rem;
+}
+
+/* media queries */
+@mixin not-large {
+  @media (max-width: 1050px) {
+    @content;
+  }
+}
+
+@mixin for-medium {
+  @media (max-width: 799px) {
+    @content;
+  }
+}
+
+@mixin for-small {
+  @media (max-width: 599px) {
+    @content;
+  }
+}

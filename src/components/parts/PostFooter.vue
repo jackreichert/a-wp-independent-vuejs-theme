@@ -1,0 +1,80 @@
+<template>
+  <footer>
+    <div class="doublebar">
+      <small class="db-content" v-if="isPost">Published in
+        <router-link v-for="category in categories" :to="categoryLink(category)">{{ category.name }}</router-link>
+      </small>
+    </div>
+    <em>
+      <small v-if="isPost" class="tags">
+        Tags:
+        <router-link v-for="tag in tags" :to="tagLink(tag)">{{ tag.name }}</router-link>
+      </small>
+    </em>
+  </footer>
+</template>
+<script>
+export default {
+  name: "PostFooter",
+  props: {
+    categories: Object,
+    tags: Object,
+    isPost: Boolean
+  },
+  methods: {
+    categoryLink: function (category) {
+      return `/category/${category.slug}`
+    },
+    tagLink: function (tag) {
+      return `/tag/${tag.slug}`
+    }
+  }
+}
+</script>
+<style lang="scss" scoped>
+@import "../../style/variables.scss";
+/* https://css-tricks.com/line-on-sides-headers/ */
+.doublebar {
+  line-height: 0.5;
+  text-align: center;
+  padding: 1rem;
+  overflow: hidden;
+
+  .db-content {
+    display: inline-block;
+    position: relative;
+
+    &:before,
+    &:after {
+      content: "";
+      position: absolute;
+      height: 5px;
+      border-bottom: 1px solid $brand-contrast;
+      border-top: 1px solid $brand-contrast;
+      top: 0;
+      width: 600px;
+    }
+
+    &:before {
+      right: 100%;
+      margin-right: 15px;
+    }
+
+    &:after {
+      left: 100%;
+      margin-left: 15px;
+    }
+  }
+}
+
+.tags {
+  a:after {
+    content: ", ";
+    color: $black;
+  }
+
+  a:last-child:after {
+    content: "";
+  }
+}
+</style>
