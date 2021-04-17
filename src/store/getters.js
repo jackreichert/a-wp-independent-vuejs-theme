@@ -2,18 +2,18 @@ export const getters = {
     getSiteConfig: (state) => (configKey) => {
         return state.site[configKey]
     },
-    getBySlug: (state) => (slug) => {
-        for (const key in state.post) {
-            if (state.post[key].slug === slug) {
-                return state.post[key]
+    getBySlug: (state) => ({slug}) => {
+        const postTypes = ['post', 'page']
+        let post = false
+        postTypes.forEach(postType => {
+            for (const key in state[postType]) {
+                if (state[postType][key].slug === slug) {
+                    post = state[postType][key]
+                }
             }
-        }
-        for (const key in state.page) {
-            if (state.page[key].slug === slug) {
-                return state.page[key]
-            }
-        }
-        return false
+        })
+
+        return post;
     },
     orderByDate: (state) => (type) => {
         return Object.keys(state[type]).sort((keyA, keyB) => {
@@ -45,7 +45,11 @@ export const getters = {
             return false
         })
     },
-    getPostsForPage: (state, getters) => (params) => {
+    getPostsForRoute: (state, getters) => (params) => {
+        const posts = {}
+        if ('undefined' !== typeof params.slug) {
+            return [getters.getBySlug(params)]
+        }
         const pageNum = params.pageNum || 0
         const start = pageNum * state.site.perPage;
         let postKeys = getters.orderByDate('post')
@@ -56,7 +60,7 @@ export const getters = {
             postKeys = getters.getPostsInTag(params.tag)
         }
         const ids = postKeys.slice(start, start + state.site.perPage)
-        const posts = {}
+
         ids.forEach(id => {
             posts[id] = state.post[id]
         })

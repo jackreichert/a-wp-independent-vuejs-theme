@@ -1,6 +1,6 @@
 <template>
   <heading/>
-  <router-view />
+  <router-view/>
   <site-footer/>
 </template>
 
@@ -30,6 +30,8 @@ export default {
       this.$store.dispatch("fetchAllPosts");
       this.$store.dispatch("fetchAllPages");
       this.$store.dispatch("fetchAllTestimonials");
+    } else {
+      this.$store.commit('fetching', false)
     }
   },
   beforeMount() {

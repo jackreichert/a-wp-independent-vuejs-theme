@@ -27,6 +27,7 @@ export const actions = {
                 const currentPostCount = Object.keys(store.state.post).length;
                 store.commit('addPosts', response.data.posts, attr.type)
                 store.commit('updateFound', response.data.found)
+                store.commit('fetching', false);
                 if (currentPostCount + response.data.posts.length <= response.data.found) {
                     store.dispatch('fetchAllPosts', {page: attr.page + 1, page_per: attr.page_per, type: attr.type});
                 } else {

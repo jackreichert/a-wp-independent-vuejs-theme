@@ -47,6 +47,8 @@ export const mutations = {
     },
     setTraverseCategories(state, ids) {
         state.traverseIds = ids
+    },
+    fetching(state, status) {
+        state.isLoading = status
     }
-
 }
