@@ -39,7 +39,6 @@ export const mutations = {
     getInitialiseStore(state) {
         // Check if the ID exists
         if (localStorage.getItem('store')) {
-            console.log("FOUND Storage")
             this.replaceState(
                 Object.assign(state, JSON.parse(localStorage.getItem('store')))
             );

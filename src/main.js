@@ -6,7 +6,6 @@ import './style/index.scss'
 
 store.subscribe((mutation, state) => {
     // Store the state object as a JSON string
-    console.log("storing...")
     localStorage.setItem('store', JSON.stringify(state));
 });
 

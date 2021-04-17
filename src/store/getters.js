@@ -8,7 +8,6 @@ export const getters = {
                 return state.post[key]
             }
         }
-        console.log("page", state.page)
         for (const key in state.page) {
             if (state.page[key].slug === slug) {
                 return state.page[key]
@@ -96,7 +95,6 @@ export const getters = {
     getPageMenu: (state) => () => {
         const keys = Object.keys(state.page)
         return keys.map(key => {
-            console.log(state.page[key])
             return {
                 title: state.page[key].title,
                 path: `/${state.page[key].slug}`

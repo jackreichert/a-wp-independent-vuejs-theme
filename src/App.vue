@@ -16,11 +16,6 @@ export default {
     Heading,
     SiteFooter,
   },
-  methods: {
-    hi() {
-      console.log("HI")
-    }
-  },
   beforeCreate() {
     if (utils.storageAvailable("localStorage")) {
       this.$store.commit("getInitialiseStore");
@@ -29,7 +24,6 @@ export default {
         Object.keys(this.$store.state.post).length === 0 ||
         moment() > moment(this.$store.state.lastUpdated).add(5, "minutes")
     ) {
-      console.log("Updating");
       this.$store.commit("setSiteConfig");
       this.$store.dispatch("fetchSiteMeta");
       this.$store.dispatch("getTraverseCategories");

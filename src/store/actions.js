@@ -22,7 +22,6 @@ export const actions = {
     },
     fetchAllPosts(store, attr = {page: 0, page_per: 20, type: 'post'}) {
         const baseUrl = `https://public-api.wordpress.com/rest/v1.1/sites/${store.state.site.wpSite}`
-        console.log("BASE", store.state.site)
         axios.get(`${baseUrl}/posts?page=${attr.page}&per_page=${attr.page_per}&type=${attr.type}`)
             .then(response => {
                 const currentPostCount = Object.keys(store.state.post).length;
@@ -31,7 +30,6 @@ export const actions = {
                 if (currentPostCount + response.data.posts.length <= response.data.found) {
                     store.dispatch('fetchAllPosts', {page: attr.page + 1, page_per: attr.page_per, type: attr.type});
                 } else {
-                    console.log("done", attr.type, store.state[attr.type])
                     store.commit('updateLastUpdated')
                 }
             })
