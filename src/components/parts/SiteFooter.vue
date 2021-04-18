@@ -1,6 +1,6 @@
 <template>
   <footer class="site-footer">
-    <primary-navigation class="bottom-navigation" />
+    <primary-navigation class="bottom-navigation"/>
     <small class="copy">
       Copyright &copy; {{ copyright }} {{ siteTitle }}. All Rights Reserved.
     </small>
@@ -16,14 +16,12 @@ export default {
     PrimaryNavigation
   },
   computed: {
-    copyright: () => {
-      return moment().format("YYYY");
-    },
+    copyright: () => moment().format("YYYY"),
     siteTitle: function () {
       return this.$store.getters.getSiteConfig("siteTitle");
     },
-    routes: () => routes,
-  },
+    routes: () => routes
+  }
 };
 </script>
 <style lang="scss">

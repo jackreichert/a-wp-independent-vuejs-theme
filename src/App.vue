@@ -6,7 +6,7 @@
 
 <script>
 import moment from "moment";
-import Heading from "./components/parts/Heading.vue";
+import Heading from "./components/parts/SiteHeader.vue";
 import SiteFooter from "./components/parts/SiteFooter.vue";
 import utils from "./utils";
 

@@ -1,7 +1,7 @@
 import {mount} from '@vue/test-utils'
 import {createStore} from 'vuex'
 
-import Heading from './Heading.vue'
+import Heading from './SiteHeader.vue'
 import PrimaryNavigation from './PrimaryNavigation.vue'
 import Branding from './Branding.vue'
 
@@ -28,7 +28,7 @@ const mockRouter = {
     }
 }
 
-describe('Heading.vue', () => {
+describe('SiteHeader.vue', () => {
     it('is a vue component', () => {
         const wrapper = mount(Heading, {
             global: {
