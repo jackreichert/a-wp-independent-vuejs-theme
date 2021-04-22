@@ -2,7 +2,7 @@
   <footer class="site-footer">
     <primary-navigation class="bottom-navigation"/>
     <small class="copy">
-      Copyright &copy; {{ copyright }} {{ siteTitle }}. All Rights Reserved.
+      Copyright &copy; {{ copyright }} {{ siteTitle }}. All Rights Reserved. Proudly Powered by <a href="https://wordpress.com/" target="_blank">WordPress</a>.
     </small>
   </footer>
 </template>
