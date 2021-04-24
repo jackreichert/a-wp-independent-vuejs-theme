@@ -35,7 +35,7 @@ export default {
   },
   computed: {
     permalink: function () {
-      return new URL(this.url).pathname;
+      return new URL(this.url).pathname.replace(`${this.day}/`, '');
     },
     hasFeaturedImage: function () {
       return this.featuredImage !== "";
@@ -175,6 +175,7 @@ header {
       .month:after {
         content: " ";
       }
+
       .day:after {
         content: ", ";
       }

@@ -22,7 +22,7 @@ export default {
     }
     if (
         Object.keys(this.$store.state.post).length === 0 ||
-        moment() > moment(this.$store.state.lastUpdated).add(5, "minutes")
+        moment() > moment(this.$store.state.lastUpdated).add(5, "seconds")
     ) {
       this.$store.commit("setSiteConfig");
       this.$store.dispatch("fetchSiteMeta");
@@ -33,9 +33,6 @@ export default {
     } else {
       this.$store.commit('fetching', false)
     }
-  },
-  beforeMount() {
-    this.$store.dispatch("updateHeadMeta");
   },
   updated() {
     this.$nextTick(function () {

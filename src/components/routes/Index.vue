@@ -36,6 +36,15 @@ export default {
     isLoaded: function () {
       return !this.$store.state.isLoading;
     }
+  },
+  beforeMount() {
+    this.$store.dispatch("updateHeadMeta", this.$route);
+  },
+  watch: {
+    $route(to, from) {
+      this.$store.dispatch("updateHeadMeta", to);
+    }
   }
+
 };
 </script>

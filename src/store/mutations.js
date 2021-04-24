@@ -32,6 +32,7 @@ export const mutations = {
     updateSiteMeta(state, siteMeta) {
         state.site.siteTitle = siteMeta.name
         state.site.tagline = siteMeta.description
+        state.site.image = siteMeta.icon.img.replace('?w=96', '?w=400')
     },
     updateFound(state, found) {
         state.found = found
