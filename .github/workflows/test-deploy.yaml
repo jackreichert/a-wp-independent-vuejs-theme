@@ -16,8 +16,10 @@ jobs:
           npm run test
 
       - name: Build 🔧
+        env:
+          site_config: ${{ secrets.SITECONFIG }}
         run: |
-          npm install
+          echo $site_config > src/site.config.js
           npm run build
 
       - name: Deploy 🚀
