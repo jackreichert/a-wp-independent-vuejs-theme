@@ -10,7 +10,8 @@ const store = createStore({
     },
     mutations: {},
     getters: {
-        getSiteConfig: () => jest.fn()
+        getSiteConfig: () => jest.fn(),
+        getPageMenu: () => jest.fn()
     }
 })
 
