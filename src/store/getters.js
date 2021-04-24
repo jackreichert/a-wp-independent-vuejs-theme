@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const getters = {
     getSiteConfig: (state) => (configKey) => {
         return state.site[configKey]
@@ -89,12 +91,14 @@ export const getters = {
     getPreviousPost: (state, getters) => (postId = '0') => {
         const keys = getters.orderByDate('post')
         const index = keys.indexOf(`post-${postId}`)
-        return index < keys.length ? state.post[keys[index + 1]].URL.split(state.site.wpSite)[1] : '/'
+        const day = moment(state.post[keys[index + 1]].date).date()
+        return index < keys.length ? state.post[keys[index + 1]].URL.split(state.site.wpSite)[1].replace(`/${day}/`, '/') : '/'
     },
     getNextPost: (state, getters) => (postId = '0') => {
         const keys = getters.orderByDate('post')
         const index = keys.indexOf(`post-${postId}`)
-        return index > 0 ? state.post[keys[index - 1]].URL.split(state.site.wpSite)[1] : '/'
+        const day = moment(state.post[keys[index - 1]].date).date()
+        return index > 0 ? state.post[keys[index - 1]].URL.split(state.site.wpSite)[1].replace(`/${day}/`, '/') : '/'
     },
     getPageMenu: (state) => () => {
         const keys = Object.keys(state.page)

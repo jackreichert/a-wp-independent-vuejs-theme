@@ -1,10 +1,6 @@
 <template>
-  <figure class="image-figure" v-if="hasFeaturedImage">
-    <img
-        class="image-heading"
-        :src="featuredImage + '?w=1600&h=1200&crop=1'"
-    />
-  </figure>
+  <figure class="image-figure" v-if="hasFeaturedImage" :style="{'background-image': `url(${featuredImage})`}"
+          role="img" :aria-label="title"/>
   <header :class="hasFeaturedImage ? 'with-img' : ''">
     <h1>
       <router-link :to="{ path: permalink }" v-html="title"/>
@@ -70,31 +66,23 @@ figure.image-figure {
   display: block;
   padding-bottom: (1200 / 1600) * 100%;
   margin-top: -$top;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 
-  img.image-heading {
-    width: 100%;
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: -1;
-    clip-path: inset($top 0px);
-    @include for-medium {
-      margin: 0;
-      clip-path: none;
-    }
-  }
-
-  @include for-medium {
-    margin: 0;
+@media only screen and (max-device-width: 1366px) {
+  figure.image-figure {
+    background-attachment: scroll;
   }
 }
+
 
 header {
   width: 80%;
   max-width: 90ch;
-  padding: 0.25rem 2rem;
+  padding: 0.25rem 2rem 1.5rem;
   background: $white;
   z-index: 1;
   position: relative;

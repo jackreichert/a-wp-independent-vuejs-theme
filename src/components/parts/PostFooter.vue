@@ -34,6 +34,16 @@ export default {
 <style lang="scss" scoped>
 @import "../../style/variables.scss";
 /* https://css-tricks.com/line-on-sides-headers/ */
+footer {
+  width: 80%;
+  max-width: 90ch;
+  padding: 0.25rem 2rem;
+  background: $white;
+  z-index: 1;
+  position: relative;
+  margin: 0rem auto 0;
+}
+
 .doublebar {
   line-height: 0.5;
   text-align: center;

@@ -55,7 +55,23 @@ article.entry {
 
   .entry-content {
     background: $white;
-    @include center-column();
+
+    p, blockquote, h1, h2, h3, h4, h5, h6, figure, ol, ul, pre {
+      @include center-column();
+    }
+
+    pre {
+      background: #efefef;
+      padding: 1rem;
+    }
+
+    figure > div {
+      margin: 0;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+      padding-top: 1rem;
+    }
 
     p:first-child {
       margin-top: 0;
@@ -77,7 +93,6 @@ article.entry {
 
     .wp-block-gallery {
       max-width: calc(782px - 32px);
-      margin: 0;
 
       .blocks-gallery-grid {
         display: flex;
@@ -89,9 +104,11 @@ article.entry {
         .blocks-gallery-item {
           width: calc(33.33333% - .66667em);
           margin: 0 0.5rem 0.5rem 0;
+
           &:last-child {
             width: calc(100% - 1rem);
           }
+
           figure {
             display: flex;
             align-items: flex-end;
@@ -110,11 +127,6 @@ article.entry {
       }
 
     }
-  }
-
-  footer {
-    @include center-column();
-    margin-bottom: 2rem;
   }
 }
 
