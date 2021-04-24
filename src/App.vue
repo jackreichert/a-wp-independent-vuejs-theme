@@ -22,7 +22,7 @@ export default {
     }
     if (
         Object.keys(this.$store.state.post).length === 0 ||
-        moment() > moment(this.$store.state.lastUpdated).add(5, "seconds")
+        moment() > moment(this.$store.state.lastUpdated).add(5, "minutes")
     ) {
       this.$store.commit("setSiteConfig");
       this.$store.dispatch("fetchSiteMeta");
