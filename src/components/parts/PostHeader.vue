@@ -72,12 +72,6 @@ figure.image-figure {
   background-size: cover;
 }
 
-@media only screen and (max-device-width: 960px) {
-  figure.image-figure {
-    background-attachment: scroll;
-  }
-}
-
 
 header {
   width: 80%;
