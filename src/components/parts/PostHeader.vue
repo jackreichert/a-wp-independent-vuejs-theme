@@ -35,7 +35,7 @@ export default {
   },
   computed: {
     permalink: function () {
-      return new URL(this.url).pathname.replace(`${this.day}/`, '');
+      return new URL(this.url).pathname.replace(`/${this.day}/`, '/');
     },
     hasFeaturedImage: function () {
       return this.featuredImage !== "";
