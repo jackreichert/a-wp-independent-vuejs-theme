@@ -98,7 +98,7 @@ export const getters = {
         const keys = getters.orderByDate('post')
         const index = keys.indexOf(`post-${postId}`)
         let url = index > 0 ? state.post[keys[index - 1]].URL.split(state.site.wpSite)[1] : '/'
-        const day = moment(state.post[keys[index - 1]].date).date()
+        const day = state.post[keys[index - 1]] ? moment(state.post[keys[index - 1]].date).date() : ''
         url = url.replace(`/${day}/`, '/');
         return url;
     },
