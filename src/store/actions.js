@@ -17,8 +17,8 @@ export const actions = {
 
         if (page.params && page.params.slug) {
             const post = store.getters.getBySlug(page.params)
-            author = post.author.name;
-            description = `${post.title}, ${Object.keys(post.tags).join(', ')}`;
+            author = post.author ? post.author.name : author;
+            description = post ? `${post.title}, ${Object.keys(post.tags).join(', ')}` : description;
             image = `${post.featured_image}?w=400&h=400&crop=1`
         }
 

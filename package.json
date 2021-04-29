@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "ghspa": "^1.0.0",
     "moment": "^2.29.1",
     "vue": "^3.0.11",
     "vue-gtag-next": "^1.14.0",

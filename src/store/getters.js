@@ -97,8 +97,10 @@ export const getters = {
     getNextPost: (state, getters) => (postId = '0') => {
         const keys = getters.orderByDate('post')
         const index = keys.indexOf(`post-${postId}`)
+        let url = index > 0 ? state.post[keys[index - 1]].URL.split(state.site.wpSite)[1] : '/'
         const day = moment(state.post[keys[index - 1]].date).date()
-        return index > 0 ? state.post[keys[index - 1]].URL.split(state.site.wpSite)[1].replace(`/${day}/`, '/') : '/'
+        url = url.replace(`/${day}/`, '/');
+        return url;
     },
     getPageMenu: (state) => () => {
         const keys = Object.keys(state.page)
