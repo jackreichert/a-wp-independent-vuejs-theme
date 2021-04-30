@@ -4,4 +4,3 @@ dist
 *.local
 .idea
 coverage
-src/site.config.js
