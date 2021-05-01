@@ -1,6 +1,20 @@
 import moment from 'moment'
 import config from './../site.config.js'
 
+const mapV2toV11 = (post) => {
+    const newPost = post;
+    newPost['ID'] = post.id;
+    newPost.content = post.content.rendered;
+    newPost.excerpt = post.excerpt.rendered;
+    newPost.title = post.title.rendered;
+    newPost.featured_image = '';
+    newPost.author = {"name": ""};
+    newPost.URL = post.link;
+    newPost.categories = [];
+    newPost.tags = [];
+    return newPost;
+}
+
 export const mutations = {
     setSiteConfig(state) {
         Object.keys(config).forEach(key => {
@@ -25,7 +39,8 @@ export const mutations = {
                 })
             }
             if (!isTraverse) {
-                state[newPosts[i].type][`post-${newPosts[i].ID}`] = newPosts[i]
+                const newPost = 'undefined' !== typeof newPosts[i]['ID'] ? newPosts[i] : mapV2toV11(newPosts[i])
+                state[newPost.type][`post-${newPost.ID}`] = newPost
             }
         }
     },

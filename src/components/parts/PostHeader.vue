@@ -48,9 +48,7 @@ export default {
     year: function () {
       return moment(this.date).year()
     }
-  },
-  beforeMount() {
-  },
+  }
 };
 </script>
 

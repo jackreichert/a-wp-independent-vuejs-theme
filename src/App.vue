@@ -26,6 +26,7 @@ export default {
     ) {
       this.$store.commit("setSiteConfig");
       this.$store.dispatch("fetchSiteMeta");
+      this.$store.dispatch("fetchBySlug", window.location.pathname)
       this.$store.dispatch("getTraverseCategories");
       this.$store.dispatch("fetchAllPosts");
       this.$store.dispatch("fetchAllPages");

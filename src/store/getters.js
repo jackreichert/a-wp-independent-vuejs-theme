@@ -14,7 +14,6 @@ export const getters = {
                 }
             }
         })
-
         return post;
     },
     orderByDate: (state) => (type) => {
@@ -50,7 +49,8 @@ export const getters = {
     getPostsForRoute: (state, getters) => (params) => {
         const posts = {}
         if ('undefined' !== typeof params.slug) {
-            return [getters.getBySlug(params)]
+            const post = getters.getBySlug(params)
+            return post ? [post] : []
         }
         const pageNum = params.pageNum || 0
         const start = pageNum * state.site.perPage;
@@ -91,8 +91,8 @@ export const getters = {
     getPreviousPost: (state, getters) => (postId = '0') => {
         const keys = getters.orderByDate('post')
         const index = keys.indexOf(`post-${postId}`)
-        const day = moment(state.post[keys[index + 1]].date).date()
-        return index < keys.length ? state.post[keys[index + 1]].URL.split(state.site.wpSite)[1].replace(`/${day}/`, '/') : '/'
+        const day = 'undefined' !== typeof state.post[keys[index + 1]] ? moment(state.post[keys[index + 1]].date).date() : '';
+        return index < keys.length && 'undefined' !== typeof state.post[keys[index + 1]] ? state.post[keys[index + 1]].URL.split(state.site.wpSite)[1].replace(`/${day}/`, '/') : '/'
     },
     getNextPost: (state, getters) => (postId = '0') => {
         const keys = getters.orderByDate('post')
