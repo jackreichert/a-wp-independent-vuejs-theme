@@ -1,13 +1,14 @@
 <template>
   <main class="list list-posts container home">
     <post
-        v-if="isLoaded()"
+        v-if="isLoaded() && ! isMissing()"
         v-for="singlePost in posts"
         :key="singlePost.ID"
         :post="singlePost"
         :excerpt="isExcerpt"
     />
-    <loading v-else/>
+    <loading v-else-if="!isLoaded()"/>
+    <not-found v-else/>
     <navigation v-if="isExcerpt"/>
   </main>
 </template>
@@ -15,6 +16,7 @@
 import Post from "../parts/Post.vue";
 import Navigation from "../parts/Navigation.vue";
 import Loading from "../parts/Loading.vue";
+import NotFound from "../parts/NotFound.vue";
 
 export default {
   name: "index",
@@ -22,7 +24,8 @@ export default {
   components: {
     Post,
     Navigation,
-    Loading
+    Loading,
+    NotFound
   },
   computed: {
     posts: function () {
@@ -35,6 +38,9 @@ export default {
   methods: {
     isLoaded: function () {
       return !this.$store.state.isLoading;
+    },
+    isMissing: function () {
+      return 0 === this.posts.length;
     }
   },
   beforeMount() {

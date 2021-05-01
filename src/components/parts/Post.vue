@@ -12,14 +12,12 @@
     <div class="entry-content" v-else v-html="excerpt ? post.excerpt : post.content"/>
     <post-footer :tags="post.tags" :categories="post.categories" :is-post="post.type === 'post'"/>
   </article>
-  <not-found v-else/>
   <navigation v-if="!excerpt" :post-id="post.ID"/>
 </template>
 
 <script>
 import PostHeader from "./PostHeader.vue";
 import PostFooter from "./PostFooter.vue";
-import NotFound from "./NotFound.vue";
 import Navigation from "./Navigation.vue";
 import Testimonial from "./Testimonial.vue";
 
@@ -29,8 +27,7 @@ export default {
     PostHeader,
     PostFooter,
     Navigation,
-    Testimonial,
-    NotFound
+    Testimonial
   },
   props: {
     post: Object,
@@ -41,7 +38,7 @@ export default {
   },
   computed: {
     isTestimonials: function () {
-      return this.post.content.includes('[testimonials]')
+      return 'undefined' !== typeof this.post.content && this.post.content.includes('[testimonials]')
     }
   }
 };
@@ -88,7 +85,9 @@ article.entry {
     }
 
     hr {
-      margin-top: 1.5rem;
+      margin: 1.5rem auto;
+      width: 30%;
+      color: #efefef;
     }
 
     .wp-block-gallery {
