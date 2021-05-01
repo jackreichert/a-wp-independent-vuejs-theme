@@ -39,7 +39,10 @@ export const mutations = {
                 })
             }
             if (!isTraverse) {
-                const newPost = 'undefined' !== typeof newPosts[i]['ID'] ? newPosts[i] : mapV2toV11(newPosts[i])
+                const newPost = 'undefined' === typeof newPosts[i]['ID'] &&
+                'undefined' === typeof state[newPosts[i].type][`post-${newPosts[i]['id']}`]
+                    ? mapV2toV11(newPosts[i])
+                    : newPosts[i]
                 state[newPost.type][`post-${newPost.ID}`] = newPost
             }
         }
