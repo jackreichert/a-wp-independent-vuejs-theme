@@ -3,9 +3,10 @@
           role="img" :aria-label="title"/>
   <header :class="hasFeaturedImage ? 'with-img' : ''">
     <h1>
-      <router-link :to="{ path: permalink }" v-html="title"/>
+      <span v-if="traverse" v-html="title"/>
+      <router-link v-else-if="isPost" :to="{ path: permalink }" v-html="title"/>
     </h1>
-    <div class="entry-meta" v-if="isPost">
+    <div class="entry-meta" v-if="isPost && !traverse">
       <em>By {{ author }}</em>
       <time :datetime="unixTimestamp">
         <span class="month">{{ month }}</span>
@@ -47,6 +48,9 @@ export default {
     },
     year: function () {
       return moment(this.date).year()
+    },
+    traverse: function () {
+      return this.$route.path === '/traverse'
     }
   }
 };

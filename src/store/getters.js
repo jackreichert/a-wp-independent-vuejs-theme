@@ -46,6 +46,17 @@ export const getters = {
             return false
         })
     },
+    getTraversePosts: (state, getters) => () => {
+        const posts = {}
+        let postKeys = getters.orderByDate('traverse')
+        postKeys.forEach(id => {
+            let category = Object.keys(state.traverse[id].categories).filter(key => key.toLowerCase() !== 'traverse')[0]
+            if (!posts[category] || posts[category].date < state.traverse[id].date) {
+                posts[category] = state.traverse[id]
+            }
+        })
+        return posts
+    },
     getPostsForRoute: (state, getters) => (params) => {
         const posts = {}
         if ('undefined' !== typeof params.slug) {

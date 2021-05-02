@@ -1,10 +1,12 @@
 import {createRouter, createWebHistory} from 'vue-router'
 
 import Index from "../components/routes/Index.vue";
+import Traverse from "../components/routes/Traverse.vue";
 
 export const routes = [
-    {path: "/", component: Index, props: {text: "Blogroll"}},
-    {path: "/page/:pageNum?", component: Index, props: {text: "Blogroll"}},
+    {path: "/", component: Index, props: {text: "Blog"}},
+    {path: "/traverse", component: Traverse, props: {text: "Traverse"}},
+    {path: "/page/:pageNum?", component: Index, props: {text: "Blog"}},
     {path: "/:year(\\d+)/:month(\\d+)/:day(\\d+)?/:slug", component: Index, props: {text: "Single"}},
     {path: "/category/:category", component: Index, props: {text: "Categories"}},
     {path: "/category/:category/page/:pageNum", component: Index, props: {text: "Categories"}},

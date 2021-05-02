@@ -1,5 +1,5 @@
 import moment from 'moment'
-import config from './../site.config.js'
+import config from './../site.config.json'
 
 const mapV2toV11 = (post) => {
     const newPost = post;
@@ -43,6 +43,7 @@ export const mutations = {
                 'undefined' === typeof state[newPosts[i].type][`post-${newPosts[i]['id']}`]
                     ? mapV2toV11(newPosts[i])
                     : newPosts[i]
+
                 state[newPost.type][`post-${newPost.ID}`] = newPost
             }
         }

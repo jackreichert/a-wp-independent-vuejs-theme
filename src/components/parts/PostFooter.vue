@@ -2,14 +2,20 @@
   <footer>
     <div class="doublebar">
       <small class="db-content" v-if="isPost">Published in
-        <router-link v-for="category in categories" :to="categoryLink(category)">{{ category.name }}</router-link>
+        <span v-if="traverse" v-for="category in categories">{{ category.name }}</span>
+        <router-link v-else-if="isPost" v-for="category in categories" :to="categoryLink(category)">{{
+            category.name
+          }}
+        </router-link>
       </small>
     </div>
     <em>
-      <small v-if="isPost" class="tags">
+      <small v-if="isPost && tags.length" class="tags">
         Tags:
-        <router-link v-for="tag in tags" :to="tagLink(tag)">{{ tag.name }}</router-link>
+        <span v-if="traverse" v-for="tag in tags">{{ tag.name }}</span>
+        <router-link v-else-if="isPost" v-for="tag in tags" :to="tagLink(tag)">{{ tag.name }}</router-link>
       </small>
+      <p v-else/>
     </em>
   </footer>
 </template>
@@ -20,6 +26,11 @@ export default {
     categories: Object,
     tags: Object,
     isPost: Boolean
+  },
+  computed: {
+    traverse: function () {
+      return this.$route.path === '/traverse'
+    }
   },
   methods: {
     categoryLink: function (category) {

@@ -4,7 +4,7 @@ import {store} from './store'
 import {router} from './router'
 import './style/index.scss'
 import VueGtag from "vue-gtag-next";
-import config from './site.config.js'
+import config from './site.config.json'
 
 store.subscribe((mutation, state) => {
     // Store the state object as a JSON string

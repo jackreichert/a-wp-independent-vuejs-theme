@@ -12,7 +12,7 @@
     <div class="entry-content" v-else v-html="excerpt ? post.excerpt : post.content"/>
     <post-footer :tags="post.tags" :categories="post.categories" :is-post="post.type === 'post'"/>
   </article>
-  <navigation v-if="!excerpt" :post-id="post.ID"/>
+  <navigation v-if="!excerpt && !traverse" :post-id="post.ID"/>
 </template>
 
 <script>
@@ -34,11 +34,14 @@ export default {
     excerpt: {
       type: Boolean,
       default: false,
-    },
+    }
   },
   computed: {
     isTestimonials: function () {
       return 'undefined' !== typeof this.post.content && this.post.content.includes('[testimonials]')
+    },
+    traverse: function () {
+      return this.$route.path === '/traverse'
     }
   }
 };
