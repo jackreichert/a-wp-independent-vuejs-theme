@@ -57,6 +57,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@use "sass:math";
 @import "../../style/variables.scss";
 
 $top: 8rem;
@@ -66,7 +67,7 @@ figure.image-figure {
   z-index: -2;
   position: relative;
   display: block;
-  padding-bottom: (1200 / 1600) * 100%;
+  padding-bottom: math.div(1200, 1600) * 100%;
   margin-top: -$top;
   background-attachment: fixed;
   background-position: center;
