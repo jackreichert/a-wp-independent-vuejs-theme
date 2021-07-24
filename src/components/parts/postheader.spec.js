@@ -11,6 +11,9 @@ describe('PostHeader.vue', () => {
             global: {
                 stubs: {
                     RouterLink: true
+                },
+                mocks: {
+                    $route: {path: '/traverse'}
                 }
             }
         });
@@ -25,6 +28,9 @@ describe('PostHeader.vue', () => {
             global: {
                 stubs: {
                     RouterLink: true
+                },
+                mocks: {
+                    $route: {path: '/traverse'}
                 }
             }
         });
