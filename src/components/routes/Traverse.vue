@@ -27,6 +27,7 @@ export default {
   },
   computed: {
     posts: function () {
+      console.log(this.$store.getters.getTraversePosts())
       return this.$store.getters.getTraversePosts();
     },
     isExcerpt: function () {

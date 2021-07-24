@@ -29,7 +29,7 @@ export default {
   },
   computed: {
     traverse: function () {
-      return this.$route.path === '/traverse'
+      return this.$store.getters.isTraverse(this.$route)
     }
   },
   methods: {

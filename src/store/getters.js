@@ -122,5 +122,8 @@ export const getters = {
             }
 
         })
+    },
+    isTraverse: (state) => (route) => {
+        return route.path === '/traverse'
     }
 }

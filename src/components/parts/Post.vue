@@ -41,7 +41,7 @@ export default {
       return 'undefined' !== typeof this.post.content && this.post.content.includes('[testimonials]')
     },
     traverse: function () {
-      return this.$route.path === '/traverse'
+      return this.$store.getters.isTraverse(this.$route)
     }
   }
 };
