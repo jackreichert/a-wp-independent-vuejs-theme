@@ -1,8 +1,10 @@
 const puppeteer = require('puppeteer')
 const fs = require('fs')
 const bent = require('bent')
+const config = require('./src/site.config.json')
 
-const SITE = 'https://www.jackreichert.com'
+const SITE = `https://${config.homepage}`
+
 
 async function ssr(url) {
     console.log(`getting page ${url}`)
@@ -16,13 +18,13 @@ async function ssr(url) {
 
 function save(content, filename, pathname) {
     try {
-        const dir = `./public${pathname}`
+        const dir = `./dist${pathname}`
         if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, {recursive: true})
         }
 
         fs.writeFileSync(`${dir}index.html`, content)
-        fs.appendFile('./public/sitmap.txt', SITE + pathname + "\n", function (err) {
+        fs.appendFile('./dist/sitmap.txt', SITE + pathname + "\n", function (err) {
             if (err) throw err;
             console.log('Saved!');
         });
@@ -52,7 +54,7 @@ function removeTraversed(posts) {
         let is_traverse = false
         const cats = Object.keys(post.terms.category)
         cats.forEach(cat => {
-            if ('parent' in post.terms.category[cat] && post.terms.category[cat].parent === 1209197) {
+            if ('parent' in post.terms.category[cat] && post.terms.category[cat].parent === config.traverseID) {
                 is_traverse = true
             }
         })
@@ -64,7 +66,7 @@ function removeTraversed(posts) {
     return blogposts;
 }
 
-const posts = getAllPosts('jackreichert.wordpress.com')
+const posts = getAllPosts(config.wpSite)
 posts.then(posts => {
     let blogposts = removeTraversed(posts);
 
@@ -82,7 +84,7 @@ posts.then(posts => {
     }
 })
 
-const pages = getAllPosts('jackreichert.wordpress.com', {page: 0, page_per: 50, type: 'page'})
+const pages = getAllPosts(config.wpSite, {page: 0, page_per: 50, type: 'page'})
 pages.then(pages => {
     let i = 0;
     let ids = []
