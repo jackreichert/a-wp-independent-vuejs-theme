@@ -5,14 +5,18 @@ const config = require('./src/site.config.json')
 
 const SITE = `https://${config.homepage}`
 
-
 async function ssr(url) {
     console.log(`getting page ${url}`)
-    const browser = await puppeteer.launch({headless: true})
-    const page = await browser.newPage()
-    await page.goto(url, {waitUntil: 'networkidle0'})
-    const html = await page.content() // serialized HTML of page DOM.
-    await browser.close()
+    let html = ''
+    try {
+        const browser = await puppeteer.launch({headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox']})
+        const page = await browser.newPage()
+        await page.goto(url, {waitUntil: 'networkidle0'})
+        html = await page.content() // serialized HTML of page DOM.
+        await browser.close()
+    } catch (e) {
+        console.error(`failed to save page ${url}`, e)
+    }
     return html
 }
 
