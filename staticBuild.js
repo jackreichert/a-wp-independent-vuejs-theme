@@ -1,34 +1,29 @@
-const puppeteer = require('puppeteer')
 const fs = require('fs')
 const bent = require('bent')
 const config = require('./src/site.config.json')
 
 const SITE = `https://${config.homepage}`
 
-async function ssr(url) {
-    console.log(`getting page ${url}`)
-    let html = ''
-
-    const browser = await puppeteer.launch({headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox']})
-    const page = await browser.newPage()
-    await page.goto(url, {waitUntil: 'networkidle0'})
-    html = await page.content() // serialized HTML of page DOM.
-    await browser.close()
-
-    return html
-}
-
-function save(content, filename, pathname) {
+function save(post, filename, pathname) {
     try {
         const dir = `./dist${pathname}`
         if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, {recursive: true})
         }
 
-        fs.writeFileSync(`${dir}index.html`, content)
+        fs.readFile('./dist/index.html', 'utf8', function (err, data) {
+            if (err) {
+                return console.error(err);
+            }
+            const content = data.replace(/<section id="app"><\/section>/g, `<section id="app"><h1>${post.title}</h1><article>${post.content}</article></section>`);
+
+            fs.writeFileSync(`${dir}index.html`, content, 'utf8', function (err) {
+                if (err) return console.error(err);
+            });
+        });
+
         fs.appendFile('./dist/sitmap.txt', SITE + pathname + "\n", function (err) {
             if (err) throw err;
-            console.log('Saved!');
         });
         console.log(`${dir} written successfully`)
     } catch (err) {
@@ -68,40 +63,33 @@ function removeTraversed(posts) {
     return blogposts;
 }
 
-const posts = getAllPosts(config.wpSite)
-posts.then(posts => {
-    let blogposts = removeTraversed(posts);
+const getPathname = function (date, slug, type) {
+    if (type === 'page') {
+        return `/${slug}/`
+    }
 
-    var i = 0;
-    const ids = Object.keys(blogposts)
-    while (i < ids.length) {
-        (function (i) {
-            setTimeout(function () {
+    const postDate = new Date(date)
+    return `/${postDate.getFullYear()}/${('0' + (parseInt(postDate.getMonth()) + 1)).slice(-2)}/${slug}/`
+}
+
+const writeEverything = function (postsPromise) {
+    postsPromise.then(posts => {
+        let blogposts = (posts[0].type === 'post') ? removeTraversed(posts) : posts;
+        var i = 0;
+        const ids = Object.keys(blogposts)
+        while (i < ids.length) {
+            (function (i) {
                 const post = blogposts[ids[i]]
                 const url = new URL(post.URL)
-                const response = ssr(`${SITE}${url.pathname}`)
-                response.then(content => save(content, post.slug, url.pathname))
-            }, 1500 * i)
-        })(i++)
-    }
-})
+                const pathname = getPathname(post.date, post.slug, post.type)
+                save(post, post.slug, pathname)
+            })(i++)
+        }
+    })
+}
+
+const posts = getAllPosts(config.wpSite)
+writeEverything(posts)
 
 const pages = getAllPosts(config.wpSite, {page: 0, page_per: 50, type: 'page'})
-pages.then(pages => {
-    let i = 0;
-    let ids = []
-    while (i < pages.length) {
-        (function (i) {
-            setTimeout(function () {
-                const page = pages[i]
-                if (!ids.includes(page.ID)) {
-                    ids.push(page.ID)
-                    const url = new URL(page.URL)
-                    const pathname = url.pathname !== '/' ? url.pathname : `/${page.slug}/`
-                    const response = ssr(`${SITE}${pathname}`)
-                    response.then(content => save(content, page.slug, pathname))
-                }
-            }, 1500 * i)
-        })(i++)
-    }
-})
+writeEverything(pages)
