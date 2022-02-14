@@ -22,7 +22,7 @@ function save(post, filename, pathname) {
             });
         });
 
-        fs.appendFile('./dist/sitmap.txt', SITE + pathname + "\n", function (err) {
+        fs.appendFile('./dist/sitemap.txt', SITE + pathname + "\n", function (err) {
             if (err) throw err;
         });
         console.log(`${dir} written successfully`)
