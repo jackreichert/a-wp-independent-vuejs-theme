@@ -1,26 +1,20 @@
 const fs = require('fs')
 const bent = require('bent')
 const config = require('./src/site.config.json')
-const path = require("path");
 
 const SITE = `https://${config.homepage}`
 
-function save(post, filename, pathname) {
+function save(post, filename, pathname, index) {
     try {
         const dir = `./dist${pathname}`
         if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, {recursive: true})
         }
 
-        fs.readFile('./dist/index.html', 'utf8', function (err, data) {
-            if (err) {
-                return console.error(err);
-            }
-            const content = data.replace(/<section id="app"><\/section>/g, `<section id="app"><h1>${post.title}</h1><article>${post.content}</article></section>`);
+        const content = index.replace(/<section id="app"><\/section>/g, `<section id="app"><h1>${post.title}</h1><article>${post.content}</article></section>`);
 
-            fs.writeFileSync(`${dir}index.html`, content, 'utf8', function (err) {
-                if (err) return console.error(err);
-            });
+        fs.writeFileSync(`${dir}index.html`, content, 'utf8', function (err) {
+            if (err) return console.error(err);
         });
 
         fs.appendFile('./dist/sitemap.txt', SITE + pathname + "\n", function (err) {
@@ -32,21 +26,16 @@ function save(post, filename, pathname) {
     }
 }
 
-function savePostsToHome(paths) {
+function savePostsToHome(paths, index) {
     let content = '';
     paths.forEach(path => {
         content += `<article><h1><a href="${path.url}">${path.title}</a></h1></article>`
     })
     content += "</section>"
-    fs.readFile('./dist/index.html', 'utf8', function (err, data) {
-        if (err) {
-            return console.error(err);
-        }
-        content = data.replace(/<\/section>/g, content);
+    content = index.replace(/<\/section>/g, content);
 
-        fs.writeFileSync('./dist/index.html', content, 'utf8', function (err) {
-            if (err) return console.error(err);
-        });
+    fs.writeFileSync('./dist/index.html', content, 'utf8', function (err) {
+        if (err) return console.error(err);
     });
 }
 
@@ -91,7 +80,7 @@ const getPathname = function (date, slug, type) {
     return `/${postDate.getFullYear()}/${('0' + (parseInt(postDate.getMonth()) + 1)).slice(-2)}/${slug}/`
 }
 
-const writeEverything = function (postsPromise) {
+const writeEverything = function (postsPromise, index) {
     postsPromise.then(posts => {
         let blogposts = (posts[0].type === 'post') ? removeTraversed(posts) : posts;
         var i = 0;
@@ -100,19 +89,24 @@ const writeEverything = function (postsPromise) {
         while (i < ids.length) {
             (function (i) {
                 const post = blogposts[ids[i]]
-                const url = new URL(post.URL)
                 const pathname = getPathname(post.date, post.slug, post.type)
                 paths.push({"title": post.title, "url": pathname})
-                save(post, post.slug, pathname)
+                save(post, post.slug, pathname, index)
             })(i++)
         }
 
-        savePostsToHome(paths)
+        savePostsToHome(paths, index)
     })
 }
 
-const posts = getAllPosts(config.wpSite)
-writeEverything(posts)
+fs.readFile('./dist/index.html', 'utf8', function (err, data) {
+    if (err) {
+        return console.error(err);
+    }
+    const posts = getAllPosts(config.wpSite)
+    writeEverything(posts, data)
 
-const pages = getAllPosts(config.wpSite, {page: 0, page_per: 50, type: 'page'})
-writeEverything(pages)
+    const pages = getAllPosts(config.wpSite, {page: 0, page_per: 50, type: 'page'})
+    writeEverything(pages, data)
+});
+
