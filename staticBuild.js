@@ -1,6 +1,7 @@
 const fs = require('fs')
 const bent = require('bent')
 const config = require('./src/site.config.json')
+const path = require("path");
 
 const SITE = `https://${config.homepage}`
 
@@ -29,6 +30,24 @@ function save(post, filename, pathname) {
     } catch (err) {
         console.error(err)
     }
+}
+
+function savePostsToHome(paths) {
+    let content = '';
+    paths.forEach(path => {
+        content += `<article><h1><a href="${path.url}">${path.title}</a></h1></article>`
+    })
+    content += "</section>"
+    fs.readFile('./dist/index.html', 'utf8', function (err, data) {
+        if (err) {
+            return console.error(err);
+        }
+        content = data.replace(/<\/section>/g, content);
+
+        fs.writeFileSync('./dist/index.html', content, 'utf8', function (err) {
+            if (err) return console.error(err);
+        });
+    });
 }
 
 async function getAllPosts(site, attr = {page: 0, page_per: 50, type: 'post'}, posts = []) {
@@ -76,15 +95,19 @@ const writeEverything = function (postsPromise) {
     postsPromise.then(posts => {
         let blogposts = (posts[0].type === 'post') ? removeTraversed(posts) : posts;
         var i = 0;
+        let paths = []
         const ids = Object.keys(blogposts)
         while (i < ids.length) {
             (function (i) {
                 const post = blogposts[ids[i]]
                 const url = new URL(post.URL)
                 const pathname = getPathname(post.date, post.slug, post.type)
+                paths.push({"title": post.title, "url": pathname})
                 save(post, post.slug, pathname)
             })(i++)
         }
+
+        savePostsToHome(paths)
     })
 }
 
