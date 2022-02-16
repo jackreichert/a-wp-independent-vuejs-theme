@@ -11,8 +11,9 @@ function save(post, filename, pathname, index) {
             fs.mkdirSync(dir, {recursive: true})
         }
 
-        const content = index.replace(/<\/body>/g, `<section id="static"><h1>${post.title}</h1><article>${post.content}</article></section></body>`);
-
+        let content = index.replace(/<\/body>/g, `<section id="static"><h1>${post.title}</h1><article>${post.content}</article></section></body>`);
+        content = content.replace(/<title>A WordPress Independent Theme<\/title>/g, `<title>${config.siteAuthor} | ${post.title}</title>`)
+        content = content.replace(/<meta name="twitter:title" content="Jack Reichert" \/>/g, `<meta name="twitter:title" content="${config.siteAuthor} | ${post.title}" />`)
         fs.writeFileSync(`${dir}index.html`, content, 'utf8', function (err) {
             if (err) return console.error(err);
         });
