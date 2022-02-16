@@ -7,7 +7,6 @@
         :post="singlePost"
         :excerpt="isExcerpt"
     />
-    <loading v-else-if="!isLoaded()"/>
     <not-found v-else/>
     <navigation v-if="isExcerpt"/>
   </main>
@@ -15,7 +14,6 @@
 <script>
 import Post from "../parts/Post.vue";
 import Navigation from "../parts/Navigation.vue";
-import Loading from "../parts/Loading.vue";
 import NotFound from "../parts/NotFound.vue";
 
 export default {
@@ -24,7 +22,6 @@ export default {
   components: {
     Post,
     Navigation,
-    Loading,
     NotFound
   },
   computed: {
