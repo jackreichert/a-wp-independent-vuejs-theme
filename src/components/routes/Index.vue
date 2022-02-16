@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     isMissing: function () {
-      return 0 === this.posts.length;
+      return 0 === this.posts.length && !this.$store.state.isLoading;
     }
   },
   beforeMount() {

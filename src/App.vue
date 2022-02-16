@@ -35,7 +35,7 @@ export default {
       this.$store.commit('fetching', false)
     }
   },
-  beforeMount() {
+  mounted() {
     const staticElem = document.getElementById("static")
     if (staticElem) {
       staticElem.style.display = 'none';
