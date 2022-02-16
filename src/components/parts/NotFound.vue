@@ -1,6 +1,6 @@
 <template>
   <article class="entry">
-    <p class="entry-content">404 Not found</p>
+    <p class="entry-content">Finding your page...</p>
   </article>
 </template>
 <script>

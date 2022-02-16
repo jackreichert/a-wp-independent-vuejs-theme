@@ -1,13 +1,13 @@
 <template>
   <main class="list list-posts container home">
     <post
-        v-if="isLoaded() && ! isMissing()"
+        v-if=" ! isMissing()"
         v-for="singlePost in posts"
         :key="singlePost.ID"
         :post="singlePost"
         :excerpt="isExcerpt"
     />
-    <not-found v-else/>
+    <not-found v-else-if="isMissing()"/>
     <navigation v-if="isExcerpt"/>
   </main>
 </template>
@@ -33,9 +33,6 @@ export default {
     }
   },
   methods: {
-    isLoaded: function () {
-      return !this.$store.state.isLoading;
-    },
     isMissing: function () {
       return 0 === this.posts.length;
     }
