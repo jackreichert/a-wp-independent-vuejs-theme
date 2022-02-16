@@ -11,7 +11,7 @@ function save(post, filename, pathname, index) {
             fs.mkdirSync(dir, {recursive: true})
         }
 
-        const content = index.replace(/<section id="app"><\/section>/g, `<section id="app"><h1>${post.title}</h1><article>${post.content}</article></section>`);
+        const content = index.replace(/<\/body>/g, `<section id="static"><h1>${post.title}</h1><article>${post.content}</article></section></body>`);
 
         fs.writeFileSync(`${dir}index.html`, content, 'utf8', function (err) {
             if (err) return console.error(err);
