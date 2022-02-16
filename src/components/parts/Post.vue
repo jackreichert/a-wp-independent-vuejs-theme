@@ -2,7 +2,7 @@
   <article class="entry" v-if="post">
     <post-header
         :title="post.title"
-        :url="post.URL"
+        :slug="post.slug"
         :featured-image="post.featured_image"
         :date="post.date"
         :author="post.author.name"

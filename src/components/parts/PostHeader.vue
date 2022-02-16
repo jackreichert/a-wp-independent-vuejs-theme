@@ -24,7 +24,7 @@ export default {
   name: "PostHeader",
   props: {
     title: String,
-    url: String,
+    slug: String,
     featuredImage: String,
     date: String,
     author: String,
@@ -32,7 +32,7 @@ export default {
   },
   computed: {
     permalink: function () {
-      return new URL(this.url).pathname.replace(`/${this.day}/`, '/');
+      return `/${this.year}/${moment(this.date).format('MM')}/${this.slug}/`;
     },
     hasFeaturedImage: function () {
       return this.featuredImage !== "";
