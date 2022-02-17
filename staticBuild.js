@@ -28,12 +28,12 @@ function save(post, filename, pathname, index) {
 }
 
 function savePostsToHome(paths, index) {
-    let content = '';
+    let content = '<section id="static">';
     paths.forEach(path => {
-        content += `<article><h1><a href="${path.url}">${path.title}</a></h1></article>`
+        content += `<article class="entry"><h1><a href="${path.url}">${path.title}</a></h1></article>`
     })
-    content += "</section>"
-    content = index.replace(/<\/section>/g, content);
+    content += "</section></body>"
+    content = index.replace(/<\/body>/g, content);
 
     fs.writeFileSync('./dist/index.html', content, 'utf8', function (err) {
         if (err) return console.error(err);
