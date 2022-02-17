@@ -1,4 +1,5 @@
 import moment from 'moment';
+import {actions} from "./actions";
 
 export const getters = {
     getSiteConfig: (state) => (configKey) => {
@@ -11,10 +12,7 @@ export const getters = {
             for (const key in state[postType]) {
                 if (state[postType][key].slug === slug) {
                     post = state[postType][key]
-                    const staticElem = document.getElementById("static")
-                    if (staticElem) {
-                        staticElem.style.display = 'none';
-                    }
+                    actions.hideStatic()
                 }
             }
         })

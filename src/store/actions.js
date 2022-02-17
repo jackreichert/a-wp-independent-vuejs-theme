@@ -83,7 +83,7 @@ export const actions = {
     hideStatic() {
         const staticElem = document.getElementById("static")
         if (staticElem) {
-            staticElem.style.display = 'none';
+            staticElem.innerHTML = '';
         }
     }
 }
