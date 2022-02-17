@@ -1,5 +1,5 @@
 <template>
-  <figure class="image-figure" v-if="hasFeaturedImage" :style="{'background-image': `url(${featuredImage})`}"
+  <figure class="image-figure" v-if="hasFeaturedImage" :style="{'background-image': `url(${featuredImage}?w=1200&h=900&crop=1)`}"
           role="img" :aria-label="title"/>
   <header :class="hasFeaturedImage ? 'with-img' : ''">
     <h1>
