@@ -35,12 +35,6 @@ export default {
       this.$store.commit('fetching', false)
     }
   },
-  mounted() {
-    const staticElem = document.getElementById("static")
-    if (staticElem) {
-      staticElem.style.display = 'none';
-    }
-  },
   updated() {
     this.$nextTick(function () {
       window.scrollTo(0, 0);

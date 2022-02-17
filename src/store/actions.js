@@ -45,6 +45,7 @@ export const actions = {
                     store.dispatch('fetchAllPosts', {page: attr.page + 1, page_per: attr.page_per, type: attr.type});
                 } else {
                     store.commit('updateLastUpdated')
+                    store.dispatch("hideStatic")
                 }
             })
     },
@@ -56,7 +57,8 @@ export const actions = {
             axios.get(`${baseUrl}/posts?slug=${match[1]}`)
                 .then(response => {
                     store.commit('addPosts', response.data)
-                    store.commit('fetching', false);
+                    store.dispatch("hideStatic")
+                    store.commit('fetching', false)
                 })
         }
     },
@@ -77,5 +79,11 @@ export const actions = {
     strip(html) {
         let doc = new DOMParser().parseFromString(html, 'text/html');
         return doc.body.textContent || "";
+    },
+    hideStatic() {
+        const staticElem = document.getElementById("static")
+        if (staticElem) {
+            staticElem.style.display = 'none';
+        }
     }
 }
