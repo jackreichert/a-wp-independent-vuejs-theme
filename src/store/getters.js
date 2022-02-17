@@ -12,10 +12,10 @@ export const getters = {
             for (const key in state[postType]) {
                 if (state[postType][key].slug === slug) {
                     post = state[postType][key]
-                    actions.hideStatic()
                 }
             }
         })
+        actions.hideStatic()
         return post;
     },
     orderByDate: (state) => (type) => {
@@ -79,6 +79,7 @@ export const getters = {
         ids.forEach(id => {
             posts[id] = state.post[id]
         })
+        actions.hideStatic()
         return posts
     },
     getTestimonials: (state, getters) => () => {

@@ -27,10 +27,10 @@ function save(post, filename, pathname, index) {
     }
 }
 
-function savePostsToHome(paths, index) {
+function savePostsToHome(posts, index) {
     let content = '<section id="static">';
-    paths.forEach(path => {
-        content += `<article class="entry"><h1><a href="${path.url}">${path.title}</a></h1></article>`
+    posts.forEach(post => {
+        content += `<article class="entry"><header><h1><a href="${post.url}">${post.title}</a></h1></header><div class="entry-content">${post.excerpt}</div></article>`
     })
     content += "</section></body>"
     content = index.replace(/<\/body>/g, content);
@@ -91,7 +91,7 @@ const writeEverything = function (postsPromise, index) {
             (function (i) {
                 const post = blogposts[ids[i]]
                 const pathname = getPathname(post.date, post.slug, post.type)
-                paths.push({"title": post.title, "url": pathname})
+                paths.push({"title": post.title, "url": pathname, "excerpt": post.excerpt.substring(0, 150)})
                 save(post, post.slug, pathname, index)
             })(i++)
         }
