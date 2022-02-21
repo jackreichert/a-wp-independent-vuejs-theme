@@ -25,13 +25,30 @@ export const actions = {
         }
 
         document.title = pageTitle;
-        document.querySelector('meta[name="description"]').setAttribute("content", description);
-        document.querySelector('meta[name="author"]').setAttribute("content", author);
-        document.querySelector('meta[name="twitter:site"]').setAttribute("content", store.getters.getSiteConfig('twitter'));
-        document.querySelector('meta[name="twitter:creator"]').setAttribute("content", store.getters.getSiteConfig('twitter'));
-        document.querySelector('meta[name="twitter:site"]').setAttribute("content", pageTitle);
-        document.querySelector('meta[name="twitter:description"]').setAttribute("content", description);
-        document.querySelector('meta[name="twitter:image"]').setAttribute("content", image);
+        const tagDescription = document.querySelector('meta[name="description"]')
+        if (tagDescription) {
+            tagDescription.setAttribute("content", description);
+        }
+        const tagAuthor = document.querySelector('meta[name="author"]')
+        if (tagAuthor) {
+            tagAuthor.setAttribute("content", author);
+        }
+        const tagTwitterSite = document.querySelector('meta[name="twitter:site"]')
+        if (tagTwitterSite) {
+            tagTwitterSite.setAttribute("content", store.getters.getSiteConfig('twitter'));
+        }
+        const tagTwitterCreator = document.querySelector('meta[name="twitter:creator"]')
+        if (tagTwitterCreator) {
+            tagTwitterCreator.setAttribute("content", store.getters.getSiteConfig('twitter'));
+        }
+        const tagTwitterDescription = document.querySelector('meta[name="twitter:description"]')
+        if (tagTwitterDescription) {
+            tagTwitterDescription.setAttribute("content", description);
+        }
+        const tagTwitterImage = document.querySelector('meta[name="twitter:image"]')
+        if (tagTwitterImage) {
+            tagTwitterImage.setAttribute("content", image);
+        }
     },
     fetchAllPosts(store, attr = {page: 0, page_per: PER_PAGE, type: 'post'}) {
         const baseUrl = `https://public-api.wordpress.com/rest/v1.1/sites/${store.state.site.wpSite}`

@@ -12,6 +12,7 @@
     "axios": "^0.25.0",
     "bent": "^7.3.12",
     "moment": "^2.29.1",
+    "striptags": "^3.2.0",
     "vue": "^3.0.11",
     "vue-gtag-next": "^1.14.0",
     "vue-router": "^4.0.12",

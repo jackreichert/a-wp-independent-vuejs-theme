@@ -1,6 +1,7 @@
 const fs = require('fs')
 const bent = require('bent')
 const config = require('./src/site.config.json')
+const striptags = require('striptags');
 
 const SITE = `https://${config.homepage}`
 
@@ -13,7 +14,11 @@ function save(post, filename, pathname, index) {
 
         let content = index.replace(/<\/body>/g, `<section id="static"><article class="entry"><header><h1>${post.title}</h1></header><div class="entry-content">${post.content}</div></article></section></body>`);
         content = content.replace(/<title>A WordPress Independent Theme<\/title>/g, `<title>${config.siteAuthor} | ${post.title}</title>`)
-        content = content.replace(/<meta name="twitter:title" content="Jack Reichert" \/>/g, `<meta name="twitter:title" content="${config.siteAuthor} | ${post.title}" />`)
+        // content = content.replace(/<meta name="description" content="This site runs WordPress content, without hosting a WordPress site." \/>/g, `<meta name="description" content="${getExcerpt(post.excerpt)}" />"`)
+        content = content.replace(/<meta name="author" content="" \/>/g, `<meta name="author" content="${config.siteAuthor}" />`)
+
+        content = content.replace(/<!-- twitter card tags -->/g, getTwitterCard(post))
+        content = content.replace(/<!-- Global site tag - Google Analytics -->/g, getGTAG())
         fs.writeFileSync(`${dir}index.html`, content, 'utf8', function (err) {
             if (err) return console.error(err);
         });
@@ -27,13 +32,51 @@ function save(post, filename, pathname, index) {
     }
 }
 
+function getTwitterCard(post) {
+    return `<!-- twitter card tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="${config.twitter}" />
+    <meta name="twitter:creator" content="${config.twitter}" />
+    <meta name="twitter:title" content="${config.siteAuthor} | ${post.title}" />
+    <meta name="twitter:description" content="${getExcerpt(post.excerpt)}" />
+    <meta name="twitter:image" content="${post.featured_image}?w=1200&h=900&crop=1" />`
+}
+
+function getExcerpt(excerpt) {
+    return striptags(excerpt).substring(0, 150)
+}
+
+function getGTAG() {
+    return `<!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=${config.gtag}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', '${config.gtag}');
+    </script>`
+}
+
 function savePostsToHome(posts, index) {
+    const title = `${config.siteAuthor} | ${config.siteDescription}`
     let content = '<section id="static">';
     posts.forEach(post => {
         content += `<article class="entry"><header><h1><a href="${post.url}">${post.title}</a></h1></header><div class="entry-content">${post.excerpt}</div></article>`
     })
     content += "</section></body>"
     content = index.replace(/<\/body>/g, content);
+
+    content = content.replace(/<!-- Global site tag - Google Analytics -->/g, getGTAG())
+    content = content.replace(/<meta name="author" content="" \/>/g, `<meta name="author" content="${config.siteAuthor}" />`)
+    content = content.replace(/<title>A WordPress Independent Theme<\/title>/g, `<title>${title}</title>`)
+
+    const post = {
+        "title": title,
+        "excerpt": `Thoughts and musings of ${config.siteAuthor}`,
+        "featured_image": config.homeImage
+    }
+    content = content.replace(/<!-- twitter card tags -->/g, getTwitterCard(post))
 
     fs.writeFileSync('./dist/index.html', content, 'utf8', function (err) {
         if (err) return console.error(err);
@@ -100,14 +143,14 @@ const writeEverything = function (postsPromise, index) {
     })
 }
 
-fs.readFile('./dist/index.html', 'utf8', function (err, data) {
+fs.readFile('./dist/index.html', 'utf8', function (err, index) {
     if (err) {
         return console.error(err);
     }
     const posts = getAllPosts(config.wpSite)
-    writeEverything(posts, data)
+    writeEverything(posts, index)
 
     const pages = getAllPosts(config.wpSite, {page: 0, page_per: 50, type: 'page'})
-    writeEverything(pages, data)
+    writeEverything(pages, index)
 });
 

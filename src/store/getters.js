@@ -121,7 +121,7 @@ export const getters = {
         return keys.map(key => {
             return {
                 title: state.page[key].title,
-                path: `/${state.page[key].slug}`
+                path: `/${state.page[key].slug}/`
             }
 
         })
