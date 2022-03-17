@@ -10,7 +10,7 @@ export const getters = {
         let post = false
         postTypes.forEach(postType => {
             for (const key in state[postType]) {
-                if (state[postType][key].slug === slug) {
+                if (state[postType][key].slug === slug && ! key.includes('undefined')) {
                     post = state[postType][key]
                 }
             }
