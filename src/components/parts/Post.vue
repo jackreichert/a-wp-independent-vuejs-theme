@@ -38,7 +38,7 @@ export default {
   },
   computed: {
     isTestimonials: function () {
-      return 'undefined' !== typeof this.post.content && this.post.content.includes('[testimonials]')
+      return 'undefined' !== typeof this.post.content && this.post.content.toString().includes('[testimonials]')
     },
     traverse: function () {
       return this.$store.getters.isTraverse(this.$route)
